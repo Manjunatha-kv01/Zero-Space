@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zero Space — Your Music. Everywhere. No Phone. No Ads.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET & BASE ─────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:    #060d18;
+  --deep:    #0a1628;
+  --dark:    #0f2040;
+  --blue:    #1565c0;
+  --electric:#2196f3;
+  --glow:    #42a5f5;
+  --ice:     #90caf9;
+  --white:   #f0f6ff;
+  --dim:     #7a9cc8;
+  --gold:    #ffd54f;
+  --green:   #00e676;
+  --card:    rgba(255,255,255,0.04);
+  --border:  rgba(66,165,245,0.15);
+  --ff-display: 'Bebas Neue', sans-serif;
+  --ff-body:    'DM Sans', sans-serif;
+  --ff-mono:    'Space Mono', monospace;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  background:var(--navy);
+  color:var(--white);
+  font-family:var(--ff-body);
+  font-size:16px;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ── NOISE OVERLAY ─────────────────────────────────────── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1000;opacity:.4;
+}
+
+/* ── NAV ───────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 5%;
+  background:rgba(6,13,24,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s;
+}
+.nav-logo{
+  font-family:var(--ff-display);
+  font-size:2rem;letter-spacing:.12em;
+  background:linear-gradient(135deg,var(--white),var(--ice));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-logo span{color:var(--electric);-webkit-text-fill-color:var(--electric)}
+.nav-links{display:flex;gap:2.5rem;align-items:center}
+.nav-links a{
+  font-size:.85rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--dim);transition:color .2s;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{
+  padding:.55rem 1.4rem;border-radius:4px;
+  background:var(--electric);color:#000;
+  font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  transition:all .2s;
+}
+.nav-cta:hover{background:var(--glow);transform:translateY(-1px)}
+
+/* ── HERO ───────────────────────────────────────────────── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:6rem 5% 4rem;position:relative;overflow:hidden;
+  text-align:center;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(21,101,192,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(33,150,243,.12) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 80% 70%, rgba(66,165,245,.08) 0%, transparent 50%),
+    var(--navy);
+  z-index:0;
+}
+/* animated grid */
+.hero-grid{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(33,150,243,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33,150,243,.07) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 80%);
+  animation:gridPulse 8s ease-in-out infinite;
+}
+@keyframes gridPulse{
+  0%,100%{opacity:.5} 50%{opacity:1}
+}
+.hero-content{position:relative;z-index:2;max-width:900px;}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.4rem 1rem;border-radius:2rem;
+  border:1px solid var(--border);background:rgba(33,150,243,.08);
+  font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ice);margin-bottom:2.2rem;
+  animation:fadeUp .8s ease both;
+}
+.hero-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 8px var(--green);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-h1{
+  font-family:var(--ff-display);
+  font-size:clamp(4.5rem,12vw,10rem);
+  line-height:.92;letter-spacing:.04em;
+  background:linear-gradient(160deg, var(--white) 0%, var(--white) 40%, var(--ice) 60%, var(--electric) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:fadeUp .9s .15s ease both;
+}
+.hero-sub{
+  margin-top:1.8rem;
+  font-size:clamp(1rem,2.2vw,1.22rem);
+  color:var(--dim);font-weight:300;line-height:1.7;
+  max-width:640px;margin-left:auto;margin-right:auto;
+  animation:fadeUp .9s .3s ease both;
+}
+.hero-sub strong{color:var(--white);font-weight:600}
+.hero-btns{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  margin-top:2.8rem;
+  animation:fadeUp .9s .45s ease both;
+}
+.btn-primary{
+  padding:.9rem 2.2rem;border-radius:5px;
+  background:linear-gradient(135deg,var(--blue),var(--electric));
+  color:#fff;font-weight:600;font-size:.95rem;
+  box-shadow:0 0 30px rgba(33,150,243,.35);
+  transition:all .25s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(33,150,243,.5)}
+.btn-ghost{
+  padding:.9rem 2.2rem;border-radius:5px;
+  border:1px solid var(--border);
+  color:var(--white);font-weight:500;font-size:.95rem;
+  transition:all .25s;background:rgba(255,255,255,.04);
+}
+.btn-ghost:hover{border-color:var(--electric);color:var(--electric);background:rgba(33,150,243,.07)}
+
+/* WAVEFORM */
+.hero-wave{
+  margin-top:4rem;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  animation:fadeUp .9s .6s ease both;
+}
+.wave-bar{
+  width:3px;border-radius:9px;
+  background:linear-gradient(to top, var(--electric), var(--ice));
+  animation:wave 1.4s ease-in-out infinite;
+}
+.wave-bar:nth-child(1){height:20px;animation-delay:0s}
+.wave-bar:nth-child(2){height:35px;animation-delay:.1s}
+.wave-bar:nth-child(3){height:50px;animation-delay:.2s}
+.wave-bar:nth-child(4){height:65px;animation-delay:.3s}
+.wave-bar:nth-child(5){height:80px;animation-delay:.4s}
+.wave-bar:nth-child(6){height:95px;animation-delay:.5s}
+.wave-bar:nth-child(7){height:110px;animation-delay:.4s}
+.wave-bar:nth-child(8){height:95px;animation-delay:.3s}
+.wave-bar:nth-child(9){height:80px;animation-delay:.2s}
+.wave-bar:nth-child(10){height:65px;animation-delay:.1s}
+.wave-bar:nth-child(11){height:50px;animation-delay:0s}
+.wave-bar:nth-child(12){height:35px;animation-delay:.1s}
+.wave-bar:nth-child(13){height:20px;animation-delay:.2s}
+.wave-bar:nth-child(14){height:35px;animation-delay:.3s}
+.wave-bar:nth-child(15){height:50px;animation-delay:.4s}
+.wave-bar:nth-child(16){height:65px;animation-delay:.5s}
+.wave-bar:nth-child(17){height:50px;animation-delay:.4s}
+.wave-bar:nth-child(18){height:35px;animation-delay:.3s}
+.wave-bar:nth-child(19){height:20px;animation-delay:.2s}
+@keyframes wave{
+  0%,100%{transform:scaleY(.4);opacity:.4}
+  50%{transform:scaleY(1);opacity:1}
+}
+
+/* ── BADGE STRIP ─────────────────────────────────────── */
+.badge-strip{
+  display:flex;flex-wrap:wrap;gap:.7rem;
+  justify-content:center;
+  padding:2.5rem 5%;
+  border-bottom:1px solid var(--border);
+}
+.badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.45rem 1rem;border-radius:2rem;
+  border:1px solid var(--border);background:rgba(255,255,255,.03);
+  font-size:.8rem;font-weight:500;color:var(--dim);
+  transition:all .2s;
+}
+.badge:hover{border-color:var(--electric);color:var(--white)}
+.badge-icon{font-size:1rem}
+
+/* ── SECTION BASE ─────────────────────────────────────── */
+section{padding:7rem 5%;position:relative}
+.section-label{
+  font-family:var(--ff-mono);
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--electric);margin-bottom:.8rem;
+}
+.section-title{
+  font-family:var(--ff-display);
+  font-size:clamp(2.8rem,6vw,5rem);
+  line-height:1;letter-spacing:.04em;
+  color:var(--white);margin-bottom:1.4rem;
+}
+.section-body{
+  font-size:1.05rem;color:var(--dim);
+  max-width:580px;line-height:1.75;
+}
+.reveal{
+  opacity:0;transform:translateY(40px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── WHAT IS ─────────────────────────────────────────── */
+#what{background:var(--deep)}
+.what-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;max-width:1200px;margin:0 auto;
+}
+.what-visual{
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.orbit-ring{
+  width:320px;height:320px;border-radius:50%;
+  border:1px solid rgba(33,150,243,.2);
+  position:relative;display:flex;align-items:center;justify-content:center;
+  animation:spin 20s linear infinite;
+}
+.orbit-ring::before{
+  content:'';position:absolute;
+  width:380px;height:380px;border-radius:50%;
+  border:1px dashed rgba(33,150,243,.1);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orbit-center{
+  position:absolute;
+  width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle,rgba(33,150,243,.3),rgba(21,101,192,.1));
+  border:2px solid rgba(33,150,243,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;
+  animation:spinRev 20s linear infinite;
+  box-shadow:0 0 60px rgba(33,150,243,.2);
+}
+@keyframes spinRev{to{transform:rotate(-360deg)}}
+.orbit-dot{
+  position:absolute;width:48px;height:48px;border-radius:50%;
+  background:var(--dark);border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  animation:spinRev 20s linear infinite;
+  box-shadow:0 0 20px rgba(33,150,243,.15);
+}
+.orbit-dot:nth-child(1){top:-24px;left:calc(50% - 24px)}
+.orbit-dot:nth-child(2){right:-24px;top:calc(50% - 24px)}
+.orbit-dot:nth-child(3){bottom:-24px;left:calc(50% - 24px)}
+.orbit-dot:nth-child(4){left:-24px;top:calc(50% - 24px)}
+
+/* ── HOW IT WORKS ────────────────────────────────────── */
+#how{background:var(--navy)}
+.steps{
+  display:flex;gap:0;max-width:1200px;margin:4rem auto 0;
+  position:relative;
+}
+.steps::before{
+  content:'';position:absolute;
+  top:52px;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--electric),transparent);
+  z-index:0;
+}
+.step{
+  flex:1;text-align:center;padding:0 1.5rem;position:relative;z-index:1;
+}
+.step-num{
+  width:100px;height:100px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--dark));
+  border:2px solid rgba(33,150,243,.4);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;font-size:2.5rem;
+  box-shadow:0 0 40px rgba(33,150,243,.2);
+  transition:all .3s;
+}
+.step:hover .step-num{
+  box-shadow:0 0 60px rgba(33,150,243,.5);
+  border-color:var(--electric);transform:scale(1.06);
+}
+.step-title{font-weight:700;font-size:1rem;margin-bottom:.5rem;color:var(--white)}
+.step-desc{font-size:.85rem;color:var(--dim);line-height:1.6}
+.step-arrow{
+  position:absolute;top:42px;right:-12px;
+  font-size:1.4rem;color:var(--electric);z-index:2;
+}
+.step:last-child .step-arrow{display:none}
+
+/* ── SIGNATURE FEATURES ─────────────────────────────── */
+#features{background:var(--deep)}
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;max-width:1200px;margin:4rem auto 0;
+}
+.feat-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:2rem;
+  transition:all .3s;cursor:default;
+  position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(33,150,243,.08),transparent 60%);
+  opacity:0;transition:.3s;
+}
+.feat-card:hover{border-color:rgba(33,150,243,.4);transform:translateY(-4px)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{font-size:2.4rem;margin-bottom:1.2rem}
+.feat-title{
+  font-weight:700;font-size:1.12rem;
+  margin-bottom:.8rem;color:var(--white);
+}
+.feat-desc{font-size:.9rem;color:var(--dim);line-height:1.7}
+.feat-list{margin-top:1rem;list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.feat-list li{
+  font-size:.85rem;color:var(--dim);
+  display:flex;align-items:flex-start;gap:.6rem;
+}
+.feat-list li::before{content:'◆';color:var(--electric);font-size:.55rem;margin-top:.35rem;flex-shrink:0}
+.feat-card.highlight{
+  background:linear-gradient(135deg,rgba(21,101,192,.15),rgba(33,150,243,.08));
+  border-color:rgba(33,150,243,.35);
+}
+.feat-badge{
+  display:inline-block;padding:.25rem .7rem;border-radius:2rem;
+  background:rgba(33,150,243,.15);border:1px solid rgba(33,150,243,.3);
+  font-size:.72rem;font-weight:600;color:var(--ice);
+  margin-bottom:1rem;letter-spacing:.08em;text-transform:uppercase;
+}
+
+/* ── MOOD SYSTEM ─────────────────────────────────────── */
+#mood{background:var(--navy);overflow:hidden}
+.mood-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:6rem;align-items:center;max-width:1200px;margin:0 auto;
+}
+.mood-demo{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);border-radius:20px;
+  padding:2rem;position:relative;
+}
+.mood-demo-header{
+  display:flex;align-items:center;gap:.8rem;
+  margin-bottom:1.5rem;padding-bottom:1rem;
+  border-bottom:1px solid var(--border);
+}
+.mood-demo-dot{width:10px;height:10px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 10px var(--green)}
+.mood-demo-title{font-family:var(--ff-mono);font-size:.82rem;color:var(--dim)}
+.mood-chips{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:1.8rem}
+.mood-chip{
+  padding:.5rem 1.1rem;border-radius:2rem;
+  border:1px solid var(--border);
+  font-size:.82rem;font-weight:500;color:var(--dim);
+  cursor:pointer;transition:all .2s;position:relative;
+}
+.mood-chip.active{
+  background:linear-gradient(135deg,var(--blue),var(--electric));
+  border-color:transparent;color:#fff;
+  box-shadow:0 0 20px rgba(33,150,243,.35);
+}
+.mood-chip:hover:not(.active){border-color:var(--electric);color:var(--white)}
+.mood-devices{display:flex;flex-direction:column;gap:.8rem}
+.mood-device{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.2rem;border-radius:10px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  transition:all .3s;
+}
+.mood-device.connected{border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.05)}
+.mood-device-icon{font-size:1.6rem}
+.mood-device-info{flex:1}
+.mood-device-name{font-size:.9rem;font-weight:600;color:var(--white)}
+.mood-device-status{font-size:.75rem;color:var(--dim)}
+.mood-device.connected .mood-device-status{color:var(--green)}
+.mood-device-signal{display:flex;gap:2px;align-items:flex-end}
+.sig-bar{width:4px;border-radius:2px;background:var(--electric)}
+.sig-bar:nth-child(1){height:6px}
+.sig-bar:nth-child(2){height:10px}
+.sig-bar:nth-child(3){height:14px}
+.sig-bar:nth-child(4){height:18px}
+
+/* ── NO ADS ─────────────────────────────────────────── */
+#noads{
+  background:linear-gradient(135deg,var(--deep) 0%,rgba(21,101,192,.08) 50%,var(--deep) 100%);
+  text-align:center;padding:6rem 5%;
+}
+.noads-inner{max-width:800px;margin:0 auto}
+.noads-icon{font-size:5rem;margin-bottom:1.5rem;display:block}
+.noads-title{
+  font-family:var(--ff-display);
+  font-size:clamp(3rem,8vw,6rem);
+  color:var(--white);letter-spacing:.04em;
+  margin-bottom:1rem;
+}
+.noads-title span{
+  background:linear-gradient(90deg,var(--electric),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.noads-body{font-size:1.1rem;color:var(--dim);line-height:1.75;margin-bottom:2.5rem}
+.noads-pillars{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  margin-top:2rem;
+}
+.noads-pillar{
+  padding:.6rem 1.4rem;border-radius:4px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  font-size:.88rem;color:var(--white);font-weight:500;
+}
+
+/* ── ARCHITECTURE ────────────────────────────────────── */
+#arch{background:var(--navy);padding:7rem 5%}
+.arch-flow{
+  max-width:900px;margin:4rem auto 0;
+  display:flex;flex-direction:column;gap:0;
+}
+.arch-row{
+  display:flex;align-items:center;gap:1.5rem;
+}
+.arch-node{
+  flex:1;background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:1.2rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+  transition:all .3s;
+}
+.arch-node:hover{border-color:var(--electric);background:rgba(33,150,243,.06)}
+.arch-node-icon{font-size:1.8rem;flex-shrink:0}
+.arch-node-info{}
+.arch-node-name{font-weight:700;font-size:.95rem;color:var(--white)}
+.arch-node-desc{font-size:.8rem;color:var(--dim)}
+.arch-arrow{
+  font-size:1.5rem;color:var(--electric);flex-shrink:0;
+  text-align:center;width:30px;
+}
+.arch-connector{
+  width:2px;background:linear-gradient(to bottom,var(--electric),transparent);
+  height:30px;margin:0 auto;
+}
+.arch-cols{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:center}
+
+/* ── MULTI DEVICE ─────────────────────────────────────── */
+#multidevice{background:var(--deep);padding:7rem 5%}
+.devices-row{
+  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
+  margin-top:4rem;max-width:1100px;margin-left:auto;margin-right:auto;
+}
+.device-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:2rem 1.5rem;text-align:center;
+  flex:1;min-width:160px;max-width:200px;
+  transition:all .3s;cursor:default;
+}
+.device-card:hover{border-color:var(--electric);transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(33,150,243,.1)}
+.device-card-icon{font-size:3rem;margin-bottom:1rem}
+.device-card-name{font-weight:700;font-size:.9rem;color:var(--white);margin-bottom:.4rem}
+.device-card-desc{font-size:.78rem;color:var(--dim)}
+.device-sync{
+  display:inline-flex;align-items:center;gap:.4rem;
+  margin-top:.8rem;padding:.25rem .7rem;border-radius:2rem;
+  background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.2);
+  font-size:.72rem;color:var(--green);font-weight:600;
+}
+
+/* ── PRICING ─────────────────────────────────────────── */
+#pricing{background:var(--navy);padding:7rem 5%}
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;max-width:1000px;margin:4rem auto 0;
+}
+.price-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:2.2rem;position:relative;
+  transition:all .3s;
+}
+.price-card.featured{
+  background:linear-gradient(160deg,rgba(21,101,192,.2),rgba(33,150,243,.08));
+  border-color:rgba(33,150,243,.5);
+  transform:scale(1.03);
+  box-shadow:0 0 60px rgba(33,150,243,.15);
+}
+.price-card:hover{transform:scale(1.04);border-color:rgba(33,150,243,.4)}
+.price-card.featured:hover{transform:scale(1.06)}
+.price-badge-top{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  padding:.3rem 1rem;border-radius:2rem;
+  background:linear-gradient(90deg,var(--blue),var(--electric));
+  font-size:.72rem;font-weight:700;color:#fff;letter-spacing:.08em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.price-tier{font-family:var(--ff-mono);font-size:.8rem;color:var(--dim);margin-bottom:.8rem;text-transform:uppercase}
+.price-amount{
+  font-family:var(--ff-display);font-size:3.5rem;color:var(--white);
+  line-height:1;margin-bottom:.3rem;letter-spacing:.04em;
+}
+.price-amount sup{font-size:1.5rem;vertical-align:top;margin-top:.4rem}
+.price-period{font-size:.82rem;color:var(--dim);margin-bottom:1.5rem}
+.price-storage{
+  font-family:var(--ff-mono);font-size:.85rem;color:var(--electric);
+  margin-bottom:1.5rem;padding:.5rem;
+  background:rgba(33,150,243,.08);border-radius:6px;text-align:center;
+}
+.price-divider{height:1px;background:var(--border);margin:1.2rem 0}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.price-features li{
+  display:flex;align-items:center;gap:.7rem;
+  font-size:.85rem;color:var(--dim);
+}
+.price-features li .tick{color:var(--green);font-size:1rem;flex-shrink:0}
+.price-features li .no{color:#555;font-size:1rem;flex-shrink:0}
+.price-btn{
+  display:block;width:100%;margin-top:1.8rem;
+  padding:.85rem;border-radius:6px;text-align:center;
+  font-weight:600;font-size:.9rem;transition:all .25s;
+}
+.price-btn-outline{border:1px solid var(--border);color:var(--white)}
+.price-btn-outline:hover{border-color:var(--electric);color:var(--electric)}
+.price-btn-solid{
+  background:linear-gradient(135deg,var(--blue),var(--electric));
+  color:#fff;box-shadow:0 0 30px rgba(33,150,243,.3);
+}
+.price-btn-solid:hover{box-shadow:0 0 50px rgba(33,150,243,.5)}
+.no-ads-tag{
+  text-align:center;margin-top:2rem;
+  font-size:.9rem;color:var(--dim);
+}
+.no-ads-tag strong{color:var(--gold)}
+
+/* ── ROADMAP ─────────────────────────────────────────── */
+#roadmap{background:var(--deep);padding:7rem 5%}
+.roadmap-track{
+  max-width:900px;margin:4rem auto 0;
+  position:relative;
+}
+.roadmap-track::before{
+  content:'';position:absolute;left:50%;top:0;bottom:0;
+  width:2px;background:linear-gradient(to bottom,var(--electric),var(--border));
+  transform:translateX(-50%);
+}
+.rm-item{
+  display:flex;align-items:flex-start;gap:3rem;margin-bottom:3.5rem;
+}
+.rm-item:nth-child(even){flex-direction:row-reverse}
+.rm-content{
+  flex:1;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:1.5rem;transition:all .3s;
+}
+.rm-content:hover{border-color:rgba(33,150,243,.4)}
+.rm-dot{
+  width:50px;height:50px;border-radius:50%;flex-shrink:0;
+  background:var(--dark);border:2px solid var(--electric);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;z-index:1;position:relative;
+  box-shadow:0 0 20px rgba(33,150,243,.2);
+}
+.rm-phase{
+  font-family:var(--ff-mono);font-size:.72rem;color:var(--electric);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem;
+}
+.rm-title{font-weight:700;font-size:1rem;color:var(--white);margin-bottom:.6rem}
+.rm-items{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.rm-items li{font-size:.85rem;color:var(--dim);display:flex;align-items:center;gap:.6rem}
+.rm-items li::before{content:'→';color:var(--electric);font-size:.8rem}
+.rm-status{
+  display:inline-block;padding:.2rem .7rem;border-radius:2rem;
+  font-size:.7rem;font-weight:600;margin-bottom:.8rem;
+}
+.rm-status.now{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.2)}
+.rm-status.soon{background:rgba(33,150,243,.1);color:var(--electric);border:1px solid var(--border)}
+.rm-status.future{background:rgba(255,213,79,.08);color:var(--gold);border:1px solid rgba(255,213,79,.2)}
+
+/* ── CTA ─────────────────────────────────────────────── */
+#cta{
+  background:linear-gradient(135deg,var(--dark) 0%,rgba(21,101,192,.15) 50%,var(--dark) 100%);
+  padding:8rem 5%;text-align:center;
+  border-top:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+#cta::before{
+  content:'';position:absolute;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(33,150,243,.12),transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.cta-title{
+  font-family:var(--ff-display);
+  font-size:clamp(3rem,8vw,6rem);
+  letter-spacing:.04em;color:var(--white);
+  margin-bottom:1.2rem;
+}
+.cta-sub{font-size:1.1rem;color:var(--dim);margin-bottom:2.5rem;line-height:1.7}
+.cta-note{margin-top:1.2rem;font-size:.82rem;color:var(--dim)}
+
+/* ── FOOTER ─────────────────────────────────────────── */
+footer{
+  background:var(--navy);border-top:1px solid var(--border);
+  padding:3rem 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1.5rem;
+}
+.footer-logo{
+  font-family:var(--ff-display);font-size:1.6rem;letter-spacing:.1em;
+  color:var(--dim);
+}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:.82rem;color:var(--dim);transition:color .2s}
+.footer-links a:hover{color:var(--white)}
+.footer-copy{font-size:.78rem;color:#33475e}
+
+/* ── SCROLL INDICATOR ───────────────────────────────── */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--electric),var(--gold));
+  z-index:9999;transition:width .1s;
+  box-shadow:0 0 8px var(--electric);
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:none}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media(max-width:900px){
+  .what-inner,.mood-inner{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .steps{flex-direction:column;gap:2rem}
+  .steps::before{display:none}
+  .step-arrow{display:none}
+  .price-card.featured{transform:none}
+  .arch-cols{grid-template-columns:1fr}
+  .roadmap-track::before{left:25px}
+  .rm-item,.rm-item:nth-child(even){flex-direction:column;gap:1rem}
+  .rm-dot{align-self:flex-start}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollBar"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">ZERO<span>·</span>SPACE</div>
+  <div class="nav-links">
+    <a href="#what">About</a>
+    <a href="#how">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#mood">Mood Profiles</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+  <a href="#cta" class="nav-cta">Get Early Access</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="dot"></span>
+      Cloud Audio · Phone-Free · Zero Ads
+    </div>
+    <h1 class="hero-h1">ZERO<br/>SPACE</h1>
+    <p class="hero-sub">
+      Your personal cloud music library. Streamed directly to your <strong>Bluetooth earphones</strong> through a tiny wearable — no phone, no ads, no limits. Your music. Exactly where you need it.
+    </p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn-primary">Get Early Access</a>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+    <div class="hero-wave">
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BADGE STRIP -->
+<div class="badge-strip">
+  <div class="badge"><span class="badge-icon">☁️</span> Personal Cloud Library</div>
+  <div class="badge"><span class="badge-icon">📱</span> No Phone Required</div>
+  <div class="badge"><span class="badge-icon">🎧</span> Multi-Bluetooth</div>
+  <div class="badge"><span class="badge-icon">🔀</span> Mood Profiles</div>
+  <div class="badge"><span class="badge-icon">💻</span> Multi-Device Access</div>
+  <div class="badge"><span class="badge-icon">🚫</span> Zero Ads — Forever</div>
+  <div class="badge"><span class="badge-icon">🔒</span> End-to-End Encrypted</div>
+  <div class="badge"><span class="badge-icon">⚡</span> Adaptive Bitrate Streaming</div>
+</div>
+
+<!-- WHAT IS ZERO SPACE -->
+<section id="what">
+  <div class="what-inner">
+    <div class="reveal">
+      <div class="section-label">// 001 — The Concept</div>
+      <h2 class="section-title">Music lives<br/>in the cloud.<br/>Not your pocket.</h2>
+      <p class="section-body">
+        Zero Space is a personal cloud audio platform that stores your music — every rare track, DJ mix, and local recording that no streaming service carries — and delivers it straight to your ears through a lightweight wearable gateway. Your phone stays home.
+      </p>
+      <br/>
+      <p class="section-body">
+        The platform handles everything: upload, transcode, store, stream. You just press play on your wrist.
+      </p>
+    </div>
+    <div class="what-visual reveal">
+      <div class="orbit-ring">
+        <div class="orbit-dot" style="top:-24px;left:calc(50% - 24px)">🎧</div>
+        <div class="orbit-dot" style="right:-24px;top:calc(50% - 24px)">⌚</div>
+        <div class="orbit-dot" style="bottom:-24px;left:calc(50% - 24px)">📡</div>
+        <div class="orbit-dot" style="left:-24px;top:calc(50% - 24px)">🔊</div>
+        <div class="orbit-center">☁️</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-label">// 002 — Architecture</div>
+      <h2 class="section-title">Five steps.<br/>Phone-free music.</h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">⬆</div>
+        <div class="step-title">Upload</div>
+        <div class="step-desc">Upload any audio format — MP3, WAV, AAC, FLAC — via web or mobile app</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">⚙</div>
+        <div class="step-title">Transcode</div>
+        <div class="step-desc">Auto-converted to streaming AAC in the background. Originals preserved.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">☁</div>
+        <div class="step-title">Cloud Store</div>
+        <div class="step-desc">Encrypted in your personal library. Indexed on CDN edge for fast delivery.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">📡</div>
+        <div class="step-title">Gateway</div>
+        <div class="step-desc">Your wearable fetches the stream over LTE or WiFi. No phone in the chain.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">🎧</div>
+        <div class="step-title">Listen</div>
+        <div class="step-desc">Bluetooth audio to your earphones. Pure, uninterrupted. No phone. No ads.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE FEATURES -->
+<section id="features">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-label">// 003 — Features</div>
+      <h2 class="section-title">Built different.<br/>By design.</h2>
+    </div>
+    <div class="features-grid">
+
+      <div class="feat-card highlight reveal">
+        <div class="feat-badge">Multi-Device</div>
+        <div class="feat-icon">💻</div>
+        <div class="feat-title">One Account. Every Device.</div>
+        <div class="feat-desc">Your entire library syncs in real time across phone, tablet, PC, and smartwatch. Log in anywhere. Pick up exactly where you left off — always.</div>
+        <ul class="feat-list">
+          <li>Simultaneous multi-device login</li>
+          <li>Real-time library sync</li>
+          <li>Continuous playback hand-off</li>
+          <li>Unified playlist and history</li>
+        </ul>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-badge">Multi-Bluetooth</div>
+        <div class="feat-icon">🎧</div>
+        <div class="feat-title">Multiple Bluetooth. One Tap Switch.</div>
+        <div class="feat-desc">Connect several Bluetooth devices simultaneously. Zero Space routes audio to the right one based on your active mood profile — automatically.</div>
+        <ul class="feat-list">
+          <li>Multiple BT devices connected at once</li>
+          <li>Instant audio routing between devices</li>
+          <li>Per-device volume memory</li>
+          <li>Auto-switch on mood change</li>
+        </ul>
+      </div>
+
+      <div class="feat-card highlight reveal">
+        <div class="feat-badge">Smart Cache</div>
+        <div class="feat-icon">⚡</div>
+        <div class="feat-title">No Signal? Still Playing.</div>
+        <div class="feat-desc">Smart Cache pre-loads your favourite playlists to the wearable over WiFi at home. Signal drops mid-run? Seamless switch to local cache. You'll never notice.</div>
+        <ul class="feat-list">
+          <li>Auto pre-load on home WiFi</li>
+          <li>Invisible stream-to-cache fallback</li>
+          <li>Adaptive bitrate for weak signals</li>
+          <li>Learns from your listening habits</li>
+        </ul>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-badge">Personal Library</div>
+        <div class="feat-icon">🗂️</div>
+        <div class="feat-title">Your Music. Not Theirs.</div>
+        <div class="feat-desc">Upload anything. Rare tracks, DJ mixes, voice memos, original recordings. If it's audio, it belongs in Zero Space. No catalogue gatekeeping. Ever.</div>
+        <ul class="feat-list">
+          <li>MP3, WAV, AAC, FLAC support</li>
+          <li>Auto metadata extraction</li>
+          <li>Playlist creation and organiser</li>
+          <li>Full-text search across library</li>
+        </ul>
+      </div>
+
+      <div class="feat-card highlight reveal">
+        <div class="feat-badge">Security</div>
+        <div class="feat-icon">🔒</div>
+        <div class="feat-title">Encrypted. Isolated. Yours.</div>
+        <div class="feat-desc">Every file is end-to-end encrypted and stored in your personal isolated storage space. No other user can ever access your library. No data is sold. No exceptions.</div>
+        <ul class="feat-list">
+          <li>End-to-end encryption per file</li>
+          <li>Per-user isolated storage</li>
+          <li>Authenticated streaming only</li>
+          <li>Zero data sold to anyone</li>
+        </ul>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-badge">Wearable</div>
+        <div class="feat-icon">⌚</div>
+        <div class="feat-title">Your Wrist Is the Remote.</div>
+        <div class="feat-desc">Full playback control from your smartwatch. Play, pause, skip, volume — all without touching a phone. The wearable is the experience, not a companion app.</div>
+        <ul class="feat-list">
+          <li>WearOS native app (Phase 1)</li>
+          <li>watchOS coming Phase 2</li>
+          <li>LTE + WiFi connectivity</li>
+          <li>Full playback controls on wrist</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MOOD SYSTEM -->
+<section id="mood">
+  <div class="mood-inner" style="max-width:1200px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-label">// 004 — Mood Profiles</div>
+      <h2 class="section-title">Set the mood.<br/>Audio follows.</h2>
+      <p class="section-body">
+        Create named Mood Profiles — Running, Gym, Focus, Sleep, Commute. Each profile remembers your playlist, your preferred Bluetooth device, your volume. Switch moods in one tap and everything reconfigures instantly.
+      </p>
+      <br/>
+      <p class="section-body">
+        Schedule moods by time of day. Zero Space adapts to your life — not the other way around.
+      </p>
+    </div>
+    <div class="mood-demo reveal">
+      <div class="mood-demo-header">
+        <div class="mood-demo-dot"></div>
+        <div class="mood-demo-title">ZERO SPACE — Mood Control</div>
+      </div>
+      <div class="mood-chips">
+        <div class="mood-chip active">🏃 Running</div>
+        <div class="mood-chip">💪 Gym</div>
+        <div class="mood-chip">🎯 Focus</div>
+        <div class="mood-chip">😴 Sleep</div>
+        <div class="mood-chip">🚇 Commute</div>
+        <div class="mood-chip">+ New</div>
+      </div>
+      <div style="font-family:var(--ff-mono);font-size:.72rem;color:var(--dim);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.1em">Active Bluetooth Devices</div>
+      <div class="mood-devices">
+        <div class="mood-device connected">
+          <div class="mood-device-icon">🎧</div>
+          <div class="mood-device-info">
+            <div class="mood-device-name">Sony WH-1000XM5</div>
+            <div class="mood-device-status">● Active — Running Profile</div>
+          </div>
+          <div class="mood-device-signal">
+            <div class="sig-bar"></div><div class="sig-bar"></div>
+            <div class="sig-bar"></div><div class="sig-bar"></div>
+          </div>
+        </div>
+        <div class="mood-device">
+          <div class="mood-device-icon">🔊</div>
+          <div class="mood-device-info">
+            <div class="mood-device-name">JBL Flip 6</div>
+            <div class="mood-device-status">Standby — Gym Profile</div>
+          </div>
+          <div class="mood-device-signal" style="opacity:.3">
+            <div class="sig-bar"></div><div class="sig-bar"></div>
+          </div>
+        </div>
+        <div class="mood-device">
+          <div class="mood-device-icon">🎵</div>
+          <div class="mood-device-info">
+            <div class="mood-device-name">AirPods Pro</div>
+            <div class="mood-device-status">Standby — Sleep Profile</div>
+          </div>
+          <div class="mood-device-signal" style="opacity:.3">
+            <div class="sig-bar"></div><div class="sig-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZERO ADS -->
+<section id="noads">
+  <div class="noads-inner reveal">
+    <span class="noads-icon">🚫</span>
+    <h2 class="noads-title">Zero Ads.<br/><span>Zero Exceptions.</span></h2>
+    <p class="noads-body">
+      Zero Space is permanently and completely ad-free — at every tier, including the free plan. No banner ads. No audio interruptions. No sponsored tracks. No data sold to advertisers. You hear only what you chose to upload. Nothing else. This is a founding principle of the platform, not a premium feature.
+    </p>
+    <div class="noads-pillars">
+      <div class="noads-pillar">No banner ads</div>
+      <div class="noads-pillar">No audio interruptions</div>
+      <div class="noads-pillar">No sponsored tracks</div>
+      <div class="noads-pillar">No data sold</div>
+      <div class="noads-pillar">No algorithmic manipulation</div>
+      <div class="noads-pillar">No upsell popups</div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEM ARCHITECTURE -->
+<section id="arch">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-label">// 005 — Under the Hood</div>
+      <h2 class="section-title">How the<br/>cloud reaches<br/>your ears.</h2>
+    </div>
+    <div class="arch-flow reveal">
+
+      <div class="arch-row">
+        <div class="arch-node" style="max-width:220px">
+          <div class="arch-node-icon">📱</div>
+          <div class="arch-node-info">
+            <div class="arch-node-name">Web / Mobile App</div>
+            <div class="arch-node-desc">Upload + manage library</div>
+          </div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-node-icon">⚙️</div>
+          <div class="arch-node-info">
+            <div class="arch-node-name">Transcoding Queue</div>
+            <div class="arch-node-desc">WAV / FLAC → AAC stream-ready. Background async pipeline.</div>
+          </div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-node-icon">🗄️</div>
+          <div class="arch-node-info">
+            <div class="arch-node-name">Encrypted Object Storage</div>
+            <div class="arch-node-desc">S3-compatible. Per-user isolated. Cold + hot tiers.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;padding:1rem 0">
+        <div style="display:inline-block;width:2px;height:40px;background:linear-gradient(to bottom,var(--electric),transparent)"></div>
+      </div>
+
+      <div class="arch-row">
+        <div class="arch-node">
+          <div class="arch-node-icon">🌐</div>
+          <div class="arch-node-info">
+            <div class="arch-node-name">CDN Edge Network</div>
+            <div class="arch-node-desc">Adaptive HLS streaming. Low-latency global delivery.</div>
+          </div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-node-icon">⌚</div>
+          <div class="arch-node-info">
+            <div class="arch-node-name">WearOS Gateway App</div>
+            <div class="arch-node-desc">LTE / WiFi. Smart Cache. Authenticated stream receiver.</div>
+          </div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node" style="max-width:200px">
+          <div class="arch-node-icon">🎧</div>
+          <div class="arch-node-info">
+            <div class="arch-node-name">Bluetooth Earphones</div>
+            <div class="arch-node-desc">A2DP / BLE Audio output</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MULTI DEVICE -->
+<section id="multidevice">
+  <div style="max-width:1100px;margin:0 auto;text-align:center">
+    <div class="reveal">
+      <div class="section-label">// 006 — Multi-Device</div>
+      <h2 class="section-title">Every screen.<br/>One library.</h2>
+      <p class="section-body" style="margin:0 auto 0">Your Zero Space library is always in sync. Switch devices mid-song and your music follows. No re-logging, no re-syncing, no friction.</p>
+    </div>
+    <div class="devices-row reveal">
+      <div class="device-card">
+        <div class="device-card-icon">🌐</div>
+        <div class="device-card-name">Browser</div>
+        <div class="device-card-desc">Full library on any web browser</div>
+        <div class="device-sync">✓ Synced</div>
+      </div>
+      <div class="device-card">
+        <div class="device-card-icon">📱</div>
+        <div class="device-card-name">Mobile App</div>
+        <div class="device-card-desc">iOS & Android upload + stream</div>
+        <div class="device-sync">✓ Synced</div>
+      </div>
+      <div class="device-card">
+        <div class="device-card-icon">💻</div>
+        <div class="device-card-name">Desktop</div>
+        <div class="device-card-desc">Full client for Mac & Windows</div>
+        <div class="device-sync">✓ Synced</div>
+      </div>
+      <div class="device-card">
+        <div class="device-card-icon">⌚</div>
+        <div class="device-card-name">WearOS Watch</div>
+        <div class="device-card-desc">Phone-free gateway + controls</div>
+        <div class="device-sync">✓ Synced</div>
+      </div>
+      <div class="device-card" style="border-style:dashed;opacity:.6">
+        <div class="device-card-icon">🎧</div>
+        <div class="device-card-name">WiFi Headphones</div>
+        <div class="device-card-desc">Direct stream — coming Phase 2</div>
+        <div class="device-sync" style="background:rgba(255,213,79,.08);border-color:rgba(255,213,79,.2);color:var(--gold)">Soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div style="max-width:1100px;margin:0 auto;text-align:center">
+    <div class="reveal">
+      <div class="section-label">// 007 — Pricing</div>
+      <h2 class="section-title">Simple tiers.<br/>Zero compromises.</h2>
+      <p class="section-body" style="margin:0 auto">Every plan is ad-free. Always. We earn through storage subscriptions — not by selling your attention.</p>
+    </div>
+    <div class="pricing-grid reveal">
+
+      <div class="price-card">
+        <div class="price-tier">Free</div>
+        <div class="price-amount"><sup>$</sup>0</div>
+        <div class="price-period">Forever free</div>
+        <div class="price-storage">5 GB · ~1,000 songs</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="tick">✓</span> Web streaming</li>
+          <li><span class="tick">✓</span> Personal library</li>
+          <li><span class="tick">✓</span> Playlist management</li>
+          <li><span class="tick">✓</span> Zero ads — always</li>
+          <li><span class="no">✗</span> Wearable streaming</li>
+          <li><span class="no">✗</span> Mood Profiles</li>
+          <li><span class="no">✗</span> Multi-Bluetooth</li>
+        </ul>
+        <a href="#cta" class="price-btn price-btn-outline">Start Free</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge-top">Most Popular</div>
+        <div class="price-tier">Runner</div>
+        <div class="price-amount"><sup>$</sup>4<span style="font-size:2rem">.99</span></div>
+        <div class="price-period">per month</div>
+        <div class="price-storage">25 GB · ~5,000 songs</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="tick">✓</span> Everything in Free</li>
+          <li><span class="tick">✓</span> Wearable streaming (phone-free)</li>
+          <li><span class="tick">✓</span> Multi-device access</li>
+          <li><span class="tick">✓</span> Mood Profiles (5)</li>
+          <li><span class="tick">✓</span> Multi-Bluetooth routing</li>
+          <li><span class="tick">✓</span> Smart Cache</li>
+          <li><span class="tick">✓</span> Zero ads — always</li>
+        </ul>
+        <a href="#cta" class="price-btn price-btn-solid">Get Runner</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">Pro</div>
+        <div class="price-amount"><sup>$</sup>9<span style="font-size:2rem">.99</span></div>
+        <div class="price-period">per month</div>
+        <div class="price-storage">100 GB · ~20,000 songs</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="tick">✓</span> Everything in Runner</li>
+          <li><span class="tick">✓</span> Priority CDN delivery</li>
+          <li><span class="tick">✓</span> Unlimited Mood Profiles</li>
+          <li><span class="tick">✓</span> Scheduled mood automation</li>
+          <li><span class="tick">✓</span> Early access to new features</li>
+          <li><span class="tick">✓</span> Zero ads — always</li>
+        </ul>
+        <a href="#cta" class="price-btn price-btn-outline">Get Pro</a>
+      </div>
+
+    </div>
+    <div class="no-ads-tag reveal">
+      <strong>🚫 All plans are ad-free, including Free.</strong> Zero Space never shows ads. Not now, not ever.
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-label">// 008 — Roadmap</div>
+      <h2 class="section-title">Where we're<br/>going.</h2>
+    </div>
+    <div class="roadmap-track reveal">
+
+      <div class="rm-item">
+        <div class="rm-content">
+          <div class="rm-status now">Phase 1 — Now</div>
+          <div class="rm-title">Foundation & Launch</div>
+          <ul class="rm-items">
+            <li>Web & mobile upload platform</li>
+            <li>Transcoding pipeline + encrypted cloud library</li>
+            <li>WearOS gateway streaming app</li>
+            <li>Mood Profiles + Multi-Bluetooth routing</li>
+            <li>Multi-device account with real-time sync</li>
+          </ul>
+        </div>
+        <div class="rm-dot">🚀</div>
+        <div style="flex:1"></div>
+      </div>
+
+      <div class="rm-item">
+        <div style="flex:1"></div>
+        <div class="rm-dot">⌚</div>
+        <div class="rm-content">
+          <div class="rm-status soon">Phase 2 — Next</div>
+          <div class="rm-title">Platform Expansion</div>
+          <ul class="rm-items">
+            <li>watchOS native app</li>
+            <li>WiFi-enabled headphone direct stream</li>
+            <li>Scheduled mood automation (time-based)</li>
+            <li>Desktop clients — Mac & Windows</li>
+            <li>Social playlists (opt-in, private by default)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rm-item">
+        <div class="rm-content">
+          <div class="rm-status future">Phase 3 — Vision</div>
+          <div class="rm-title">Hardware & Beyond</div>
+          <ul class="rm-items">
+            <li>First-party Zero Space wearable device</li>
+            <li>Onboard storage for true offline-first wearable</li>
+            <li>Partnerships with headphone manufacturers</li>
+            <li>Zero Space embedded in WiFi headphone firmware</li>
+          </ul>
+        </div>
+        <div class="rm-dot">✨</div>
+        <div style="flex:1"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner reveal">
+    <div class="section-label" style="text-align:center">// Get In Early</div>
+    <h2 class="cta-title">Ready to go<br/>phone-free?</h2>
+    <p class="cta-sub">Join the Zero Space waitlist. Be first to upload your library and stream to your wearable the moment we launch.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">Request Early Access</a>
+      <a href="#what" class="btn-ghost">Learn More</a>
+    </div>
+    <div class="cta-note">No credit card. No commitment. Just your music — everywhere.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ZERO·SPACE</div>
+  <div class="footer-links">
+    <a href="#what">About</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+  <div class="footer-copy">© 2025 Zero Space. All rights reserved. Zero Ads. Zero Compromise.</div>
+</footer>
+
+<script>
+// Scroll progress bar
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scrollBar').style.width = (scrolled / total * 100) + '%';
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Mood chips interactive
+document.querySelectorAll('.mood-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+
+// Nav shadow on scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.boxShadow =
+    window.scrollY > 50 ? '0 2px 40px rgba(0,0,0,.5)' : 'none';
+});
+
+// Stagger wave bars
+document.querySelectorAll('.wave-bar').forEach((bar, i) => {
+  bar.style.animationDelay = (i * 0.08) + 's';
+});
+</script>
+</body>
+</html>
